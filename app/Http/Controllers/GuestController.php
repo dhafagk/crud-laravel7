@@ -1,0 +1,22 @@
+<?php
+
+namespace App\Http\Controllers;
+use App\Entry;
+use App\User;
+use Illuminate\Http\Request;
+
+class GuestController extends Controller
+{
+    public function index(){
+        //$entries = Entry::all();
+        //$entries = Entry::paginate(10);
+        $entries = Entry::with('user')->orderByDesc('created_at')->orderByDesc('id')->paginate(10);
+        return view('welcome', compact('entries'));
+    }
+
+    public function show(Entry $entryBySlug){
+        return view ('entries.show', [
+            'entry' => $entryBySlug
+        ]);
+    }
+}
